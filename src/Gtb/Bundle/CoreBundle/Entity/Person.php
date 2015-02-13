@@ -74,8 +74,6 @@ class Person
      */
     public function addReservation(Reservation $reservation)
     {
-        $reservation->addPerson($this);
-
         $this->reservations[] = $reservation;
 
         return $this;
@@ -101,4 +99,15 @@ class Person
         return $this->reservations;
     }
 
+    public function hasReservationOn($date)
+    {
+        foreach ($this->getReservations() as $reservation) {
+            if ($reservation->getDate()->diff($date)->days == 0) {
+
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

@@ -1,6 +1,6 @@
 Gtb\Bundle\CoreBundle\Entity\Person:
     type: entity
-    table: null
+    table: person
     repositoryClass: Gtb\Bundle\CoreBundle\Entity\PersonRepository
     id:
         id:

@@ -1,6 +1,6 @@
 Gtb\Bundle\CoreBundle\Entity\Restaurant:
     type: entity
-    table: null
+    table: restaurant
     repositoryClass: Gtb\Bundle\CoreBundle\Entity\RestaurantRepository
     id:
         id:
@@ -18,6 +18,6 @@ Gtb\Bundle\CoreBundle\Entity\Restaurant:
     oneToMany:
         reservations:
             targetEntity: Gtb\Bundle\CoreBundle\Entity\Reservation
-            mappedBy: person
+            mappedBy: restaurant
 
     lifecycleCallbacks: {  }

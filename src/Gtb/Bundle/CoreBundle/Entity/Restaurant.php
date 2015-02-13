@@ -102,8 +102,6 @@ class Restaurant
      */
     public function addReservation(Reservation $reservation)
     {
-        $reservation->addRestaurant($this);
-
         $this->reservations[] = $reservation;
 
         return $this;
@@ -127,6 +125,23 @@ class Restaurant
     public function getReservations()
     {
         return $this->reservations;
+    }
+
+    public function isFullOn($date)
+    {
+        return count($this->getReservationsOn($date)) < $this->getMaxCapacity() ? false : true;
+    }
+
+    public function getReservationsOn($date)
+    {
+        $reservations = [];
+        foreach ($this->getReservations() as $reservation) {
+            if ($reservation->getDate()->diff($date)->days == 0) {
+                $reservations[] = $reservation;
+            }
+        }
+
+        return $reservations;
     }
 
 }

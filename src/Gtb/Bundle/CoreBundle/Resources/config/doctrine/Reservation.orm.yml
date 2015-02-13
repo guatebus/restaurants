@@ -1,6 +1,6 @@
 Gtb\Bundle\CoreBundle\Entity\Reservation:
     type: entity
-    table: null
+    table: reservation
     repositoryClass: Gtb\Bundle\CoreBundle\Entity\ReservationRepository
     id:
         id:
@@ -19,11 +19,13 @@ Gtb\Bundle\CoreBundle\Entity\Reservation:
             joinColumn:
                 name: restaurant_id
                 referencedColumnName: id
+                nullable: false
         person:
             targetEntity: Gtb\Bundle\CoreBundle\Entity\Person
             inversedBy: reservations
             joinColumn:
                 name: person_id
                 referencedColumnName: id
+                nullable: false
 
     lifecycleCallbacks: {  }

@@ -6,29 +6,28 @@ use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Gtb\Bundle\CoreBundle\Entity\Restaurant;
+use Gtb\Bundle\CoreBundle\Entity\Person;
 
 /**
  * LoadRestaurantData.
  *
  * @author Alejandro Bustamante <alejandro.bustamante.serrano@gmail.com>
  */
-class LoadRestaurantData extends AbstractFixture implements FixtureInterface, OrderedFixtureInterface
+class LoadPersonData extends AbstractFixture implements FixtureInterface, OrderedFixtureInterface
 {
     /**
      * @param ObjectManager $manager
      */
     public function load(ObjectManager $manager)
     {
-        for ($x = 1 ; $x <= 5 ; ++$x) {
+        for ($x = 1 ; $x <= 25 ; ++$x) {
 
-            $restaurant = new Restaurant();
-            $restaurant->setName("Restaurant $x");
-            $restaurant->setMaxCapacity($x * 2 + $x);
+            $person = new Person();
+            $person->setName("Person $x");
 
-            $manager->persist($restaurant);
+            $manager->persist($person);
 
-            $this->setReference(sprintf('Restaurant-%s', $x), $restaurant);
+            $this->setReference(sprintf('Person-%s', $x), $person);
         }
 
         $manager->flush();
@@ -39,6 +38,6 @@ class LoadRestaurantData extends AbstractFixture implements FixtureInterface, Or
      */
     public function getOrder()
     {
-        return 1;
+        return 2;
     }
 }

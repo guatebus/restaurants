@@ -63,11 +63,16 @@ class Reservation
     }
 
     /**
-     * @param Restaurant $restaurant
+     * @param $restaurant
+     * @return $this
      */
     public function setRestaurant($restaurant)
     {
         $this->restaurant = $restaurant;
+
+        $restaurant->addReservation($this);
+
+        return $this;
     }
 
     /**
@@ -79,11 +84,16 @@ class Reservation
     }
 
     /**
-     * @param Person $person
+     * @param $person
+     * @return $this
      */
     public function setPerson($person)
     {
         $this->person = $person;
+
+        $person->addReservation($this);
+
+        return $this;
     }
 
     /**
