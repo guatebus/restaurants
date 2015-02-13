@@ -2,6 +2,3 @@ gtb_core:
     resource: "@GtbCoreBundle/Resources/config/routing.yml"
     prefix:   /
 
-app:
-    resource: @AppBundle/Controller/
-    type:     annotation
