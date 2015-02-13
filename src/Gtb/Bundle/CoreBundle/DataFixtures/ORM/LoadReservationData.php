@@ -38,12 +38,12 @@ class LoadReservationData extends AbstractFixture implements FixtureInterface, O
                     $date = new \DateTime("+$k days");
                     if (!$dateUtils->isRestaurantFullOn($restaurant, $date) &&
                         !$dateUtils->getReservationFor($person, $date)) {
-                        $reservation = new Reservation();
-                        $reservation->setDate($date);
-                        $reservation->setPerson($person);
-                        $reservation->setRestaurant($restaurant);
+                            $reservation = new Reservation();
+                            $reservation->setDate($date);
+                            $reservation->setPerson($person);
+                            $reservation->setRestaurant($restaurant);
 
-                        $manager->persist($reservation);
+                            $manager->persist($reservation);
                     }
                 }
             }
