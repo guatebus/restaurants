@@ -1,0 +1,4 @@
+services:
+#    gtb_core.example:
+#        class: Gtb\Bundle\CoreBundle\Example
+#        arguments: [@service_id, "plain_value", %parameter%]

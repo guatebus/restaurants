@@ -1,0 +1,29 @@
+Gtb\Bundle\CoreBundle\Entity\Reservation:
+    type: entity
+    table: null
+    repositoryClass: Gtb\Bundle\CoreBundle\Entity\ReservationRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        date:
+            type: date
+
+    manyToOne:
+        restaurant:
+            targetEntity: Gtb\Bundle\CoreBundle\Entity\Restaurant
+            inversedBy: reservations
+            joinColumn:
+                name: restaurant_id
+                referencedColumnName: id
+        person:
+            targetEntity: Gtb\Bundle\CoreBundle\Entity\Person
+            inversedBy: reservations
+            joinColumn:
+                name: person_id
+                referencedColumnName: id
+
+    lifecycleCallbacks: {  }

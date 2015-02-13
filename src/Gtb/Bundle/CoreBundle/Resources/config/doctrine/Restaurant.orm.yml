@@ -1,0 +1,23 @@
+Gtb\Bundle\CoreBundle\Entity\Restaurant:
+    type: entity
+    table: null
+    repositoryClass: Gtb\Bundle\CoreBundle\Entity\RestaurantRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+            length: 255
+        maxCapacity:
+            type: integer
+
+    oneToMany:
+        reservations:
+            targetEntity: Gtb\Bundle\CoreBundle\Entity\Reservation
+            mappedBy: person
+
+    lifecycleCallbacks: {  }

@@ -1,0 +1,21 @@
+Gtb\Bundle\CoreBundle\Entity\Person:
+    type: entity
+    table: null
+    repositoryClass: Gtb\Bundle\CoreBundle\Entity\PersonRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+            length: 255
+
+    oneToMany:
+        reservations:
+            targetEntity: Gtb\Bundle\CoreBundle\Entity\Reservation
+            mappedBy: person
+
+    lifecycleCallbacks: {  }
