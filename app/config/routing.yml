@@ -1,4 +1,6 @@
-gtb_core:
-    resource: "@GtbCoreBundle/Resources/config/routing.yml"
-    prefix:   /
+gtb_api:
+    type: rest
+    resource: "@GtbApiBundle/Resources/config/routing.yml"
+    prefix:   /v1/
+
 

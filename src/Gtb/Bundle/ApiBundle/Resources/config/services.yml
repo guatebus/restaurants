@@ -1,0 +1,9 @@
+services:
+    gtb.api.view_handler.default:
+        parent: fos_rest.view_handler.default
+        calls:
+            - ['registerHandler', ['json', [@gtb.api.view_handler.json_prefix, 'createResponse']]]
+
+    gtb.api.view_handler.json_prefix:
+        class: 'Gtb\Bundle\ApiBundle\View\JsonPrefixHandler'
+        public: false

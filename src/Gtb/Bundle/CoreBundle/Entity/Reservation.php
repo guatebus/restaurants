@@ -3,6 +3,7 @@
 namespace Gtb\Bundle\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Reservation
@@ -21,11 +22,15 @@ class Reservation
 
     /**
      * @var Restaurant
+     *
+     * @Assert\NotBlank()
      */
     private $restaurant;
 
     /**
      * @var Person
+     *
+     * @Assert\NotBlank()
      */
     private $person;
 

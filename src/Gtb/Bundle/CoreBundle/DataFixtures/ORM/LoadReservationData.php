@@ -29,7 +29,7 @@ class LoadReservationData extends AbstractFixture implements FixtureInterface, O
      */
     public function load(ObjectManager $manager)
     {
-        $dateUtils = $this->container->get('gtb_core.date_reservation_utils');
+        $dateUtils = $this->container->get('gtb.core.date_reservation_utils');
         for ($i = 1 ; $i <= 5 ; ++$i) {
             $restaurant = $this->getReference("Restaurant-$i");
             for ($j = 1 ; $j <= 25 ; ++$j) {

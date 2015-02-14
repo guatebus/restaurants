@@ -4,6 +4,7 @@ namespace Gtb\Bundle\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use \Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Restaurant
@@ -17,11 +18,19 @@ class Restaurant
 
     /**
      * @var string
+     *
+     * @Assert\NotBlank()
      */
     private $name;
 
     /**
      * @var integer
+     *
+     * @Assert\Type(type="integer")
+     * @Assert\Range(
+     *      min = 1,
+     *      minMessage = "This value should be {{ limit }} or more"
+     * )
      */
     private $maxCapacity;
 

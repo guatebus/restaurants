@@ -1,0 +1,11 @@
+restaurant:
+    type: rest
+    resource: Gtb\Bundle\ApiBundle\Controller\RestaurantController
+
+#person:
+#    type: rest
+#    resource: Gtb\Bundle\ApiBundle\Controller\PersonController
+#
+#reservation:
+#    type: rest
+#    resource: Gtb\Bundle\ApiBundle\Controller\ReservationController

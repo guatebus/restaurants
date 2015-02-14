@@ -3,6 +3,7 @@
 namespace Gtb\Bundle\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use \Doctrine\Common\Collections\ArrayCollection;
 
 /**
@@ -17,6 +18,8 @@ class Person
 
     /**
      * @var string
+     *
+     * @Assert\NotBlank()
      */
     private $name;
 
