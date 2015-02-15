@@ -2,16 +2,13 @@
 
 namespace Gtb\Bundle\ApiBundle\Controller;
 
+use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Util\Codes as ResponseCodes;
 use Gtb\Bundle\CoreBundle\Entity\Restaurant;
 use Gtb\Bundle\CoreBundle\Form\RestaurantType;
 use Symfony\Component\HttpFoundation\Request;
-use FOS\RestBundle\Controller\Annotations\Get;
-use FOS\RestBundle\Controller\Annotations\Post;
-use FOS\RestBundle\Controller\Annotations\Put;
-use FOS\RestBundle\Controller\Annotations\Delete;
 
 class RestaurantController extends FOSRestController
 {
@@ -21,7 +18,7 @@ class RestaurantController extends FOSRestController
      * @param Request $request
      * @return array
      *
-     * @Get("/restaurants")
+     * @Rest\Get("/restaurants")
      * @Rest\View
      */
     public function getRestaurantsAction(Request $request)
@@ -42,7 +39,7 @@ class RestaurantController extends FOSRestController
      * @param $id
      * @return array
      *
-     * @Get("/restaurants/{id}")
+     * @Rest\Get("/restaurants/{id}")
      * @Rest\View
      */
     public function getRestaurantAction(Request $request, $id)
@@ -60,7 +57,7 @@ class RestaurantController extends FOSRestController
      * @param Request $request
      * @return array|\FOS\RestBundle\View\View
      *
-     * @Post("/restaurants")
+     * @Rest\Post("/restaurants")
      */
     public function postRestaurantAction(Request $request)
     {
@@ -69,9 +66,11 @@ class RestaurantController extends FOSRestController
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
+            $this->getDoctrine()->getManager()->transactional(function ($em) use ($entity) {
+                    /* @var EntityManagerInterface $em */
+                    $em->persist($entity);
+                }
+            );
 
             return $this->view($entity, ResponseCodes::HTTP_CREATED);
         }
@@ -88,7 +87,7 @@ class RestaurantController extends FOSRestController
      * @param $id
      * @return array|\FOS\RestBundle\View\View
      *
-     * @Put("/restaurants/{id}")
+     * @Rest\Put("/restaurants/{id}")
      * @Rest\View
      */
     public function putRestaurantAction(Request $request, $id)
@@ -98,9 +97,11 @@ class RestaurantController extends FOSRestController
         $form->submit($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
+            $this->getDoctrine()->getManager()->transactional(function ($em) use ($entity) {
+                    /* @var EntityManagerInterface $em */
+                    $em->persist($entity);
+                }
+            );
 
             return array(
                 'entity' => $entity,
@@ -117,7 +118,7 @@ class RestaurantController extends FOSRestController
      * @param $id
      * @return \FOS\RestBundle\View\View
      *
-     * @Delete("/restaurants/{id}")
+     * @Rest\Delete("/restaurants/{id}")
      */
     public function deleteRestaurantAction(Request $request, $id)
     {
