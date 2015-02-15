@@ -70,7 +70,7 @@ class DateReservationUtils
      */
     public function daysMatch(\DateTime $dateA, \DateTime $dateB)
     {
-        if ($dateA->diff($dateB)->days === 0) {
+        if ($dateA->diff($dateB)->days === 0 && !($dateB < $dateA)) {
 
             return true;
         }
