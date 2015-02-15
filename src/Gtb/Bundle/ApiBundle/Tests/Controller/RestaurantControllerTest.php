@@ -39,9 +39,11 @@ class RestaurantControllerTest extends GtbWebTestCase
         $this->assertJsonStringEqualsJsonFile(__DIR__."/../Resources/get_restaurant_no_prefix.json", $this->stripJsonPrefix($response->getContent()));
     }
 
-    public function testPostRestaurants()
+    public function testPostRestaurant()
     {
-        $rawBody = '{"gtb_bundle_corebundle_restaurant": { "name": "Test Restaurant", "maxCapacity": 231 }}';
+        $restaurantName = "Test Restaurant";
+        $restaurantMax = 231;
+        $rawBody = '{"gtb_bundle_corebundle_restaurant": { "name": "'.$restaurantName.'", "maxCapacity": '.$restaurantMax.' }}';
         $response = $this->makeRequest(
             'POST',
             $this->getClient()->getContainer()->get('router')->generate('post_restaurant'),
@@ -54,5 +56,58 @@ class RestaurantControllerTest extends GtbWebTestCase
         );
 
         $this->assertJsonStringEqualsJsonFile(__DIR__."/../Resources/post_restaurant_no_prefix.json", $this->stripJsonPrefix($response->getContent()));
+
+        $restaurant = $this->getClient()->getContainer()->get('doctrine')->getManager()->getRepository('GtbCoreBundle:Restaurant')->find(6);
+
+        $this->assertEquals($restaurantName, $restaurant->getName());
+        $this->assertEquals($restaurantMax, $restaurant->getMaxCapacity());
+    }
+
+    public function testPutRestaurant()
+    {
+        $restaurantName = "Modified Test Restaurant";
+        $restaurantMax = 697;
+        $rawBody = '{"gtb_bundle_corebundle_restaurant": { "name": "'.$restaurantName.'", "maxCapacity": '.$restaurantMax.' }}';
+        $response = $this->makeRequest(
+            'PUT',
+            $this->getClient()->getContainer()->get('router')->generate('put_restaurant', array('id' => 6)),
+            array(),
+            array(),
+            array(
+                'CONTENT_TYPE' => 'application/json',
+            ),
+            $rawBody
+        );
+
+        $this->assertJsonStringEqualsJsonFile(__DIR__."/../Resources/put_restaurant_no_prefix.json", $this->stripJsonPrefix($response->getContent()));
+
+        $restaurant = $this->getClient()->getContainer()->get('doctrine')->getManager()->getRepository('GtbCoreBundle:Restaurant')->find(6);
+
+        $this->assertEquals($restaurantName, $restaurant->getName());
+        $this->assertEquals($restaurantMax, $restaurant->getMaxCapacity());
+    }
+
+    public function testDeleteRestaurant()
+    {
+        $restaurantName = "Modified Test Restaurant";
+        $restaurantMax = 697;
+        $rawBody = '{"gtb_bundle_corebundle_restaurant": { "name": "'.$restaurantName.'", "maxCapacity": '.$restaurantMax.' }}';
+        $response = $this->makeRequest(
+            'PUT',
+            $this->getClient()->getContainer()->get('router')->generate('put_restaurant', array('id' => 6)),
+            array(),
+            array(),
+            array(
+                'CONTENT_TYPE' => 'application/json',
+            ),
+            $rawBody
+        );
+
+        $this->assertJsonStringEqualsJsonFile(__DIR__."/../Resources/put_restaurant_no_prefix.json", $this->stripJsonPrefix($response->getContent()));
+
+        $restaurant = $this->getClient()->getContainer()->get('doctrine')->getManager()->getRepository('GtbCoreBundle:Restaurant')->find(6);
+
+        $this->assertEquals($restaurantName, $restaurant->getName());
+        $this->assertEquals($restaurantMax, $restaurant->getMaxCapacity());
     }
 }
