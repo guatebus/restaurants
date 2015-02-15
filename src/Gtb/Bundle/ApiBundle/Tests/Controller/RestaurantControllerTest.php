@@ -38,4 +38,21 @@ class RestaurantControllerTest extends GtbWebTestCase
 
         $this->assertJsonStringEqualsJsonFile(__DIR__."/../Resources/get_restaurant_no_prefix.json", $this->stripJsonPrefix($response->getContent()));
     }
+
+    public function testPostRestaurants()
+    {
+        $rawBody = '{"gtb_bundle_corebundle_restaurant": { "name": "Test Restaurant", "maxCapacity": 231 }}';
+        $response = $this->makeRequest(
+            'POST',
+            $this->getClient()->getContainer()->get('router')->generate('post_restaurant'),
+            array(),
+            array(),
+            array(
+                'CONTENT_TYPE' => 'application/json',
+            ),
+            $rawBody
+        );
+
+        $this->assertJsonStringEqualsJsonFile(__DIR__."/../Resources/post_restaurant_no_prefix.json", $this->stripJsonPrefix($response->getContent()));
+    }
 }

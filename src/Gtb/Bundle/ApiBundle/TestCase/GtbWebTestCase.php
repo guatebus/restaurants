@@ -16,10 +16,23 @@ class GtbWebTestCase extends WebTestCase
         return $this->client ? $this->client : static::createClient();
     }
 
-    protected function makeRequest($httpMethod, $endpoint)
+    /**
+     * Wrapper for the \Symfony\Component\BrowserKit\Client::request() method. Documentation borrowed from Client.
+     *
+     * @param string $method        The request method
+     * @param string $uri           The URI to fetch
+     * @param array  $parameters    The Request parameters
+     * @param array  $files         The files
+     * @param array  $server        The server parameters (HTTP headers are referenced with a HTTP_ prefix as PHP does)
+     * @param string $content       The raw body data
+     * @param bool   $changeHistory Whether to update the history or not (only used internally for back(), forward(), and reload())
+     *
+     * @return Response
+     */
+    protected function makeRequest($method, $uri, array $parameters = array(), array $files = array(), array $server = array(), $content = null, $changeHistory = true)
     {
         $client = $this->getClient();
-        $crawler = $client->request($httpMethod, $endpoint);
+        $crawler = $client->request($method, $uri, $parameters, $files, $server, $content, $changeHistory);
 
         $response = $client->getResponse();
         $this->assertJsonResponse($response);
