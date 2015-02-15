@@ -19,7 +19,7 @@ class RestaurantController extends FOSRestController
      * @return array
      *
      * @Rest\Get("/restaurants")
-     * @Rest\View
+     * @Rest\View(serializerGroups={"list.restaurants", "list.reservations", "list.persons"})
      */
     public function getRestaurantsAction(Request $request)
     {
@@ -40,7 +40,7 @@ class RestaurantController extends FOSRestController
      * @return array
      *
      * @Rest\Get("/restaurants/{id}")
-     * @Rest\View
+     * @Rest\View(serializerGroups={"details.restaurants", "list.reservations", "list.persons"})
      */
     public function getRestaurantAction(Request $request, $id)
     {

@@ -4,6 +4,7 @@ namespace Gtb\Bundle\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * Reservation
@@ -12,11 +13,15 @@ class Reservation
 {
     /**
      * @var integer
+     *
+     * @Serializer\Groups({"list.reservations", "details.reservations"})
      */
     private $id;
 
     /**
      * @var \DateTime
+     *
+     * @Serializer\Groups({"list.reservations", "details.reservations"})
      */
     private $date;
 
@@ -24,6 +29,8 @@ class Reservation
      * @var Restaurant
      *
      * @Assert\NotBlank()
+     *
+     * @Serializer\Groups({"list.reservations", "details.reservations"})
      */
     private $restaurant;
 
@@ -31,6 +38,8 @@ class Reservation
      * @var Person
      *
      * @Assert\NotBlank()
+     *
+     * @Serializer\Groups({"list.reservations", "details.reservations"})
      */
     private $person;
 

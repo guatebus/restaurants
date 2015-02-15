@@ -5,6 +5,7 @@ namespace Gtb\Bundle\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use \Doctrine\Common\Collections\ArrayCollection;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * Person
@@ -13,6 +14,8 @@ class Person
 {
     /**
      * @var integer
+     *
+     * @Serializer\Groups({"list.persons", "details.persons"})
      */
     private $id;
 
@@ -20,11 +23,15 @@ class Person
      * @var string
      *
      * @Assert\NotBlank()
+     *
+     * @Serializer\Groups({"list.persons", "details.persons"})
      */
     private $name;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
+     *
+     * @Serializer\Groups({"details.persons"})
      */
     private $reservations;
 

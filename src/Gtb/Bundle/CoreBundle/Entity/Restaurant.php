@@ -5,6 +5,7 @@ namespace Gtb\Bundle\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use \Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * Restaurant
@@ -13,6 +14,7 @@ class Restaurant
 {
     /**
      * @var integer
+     * @Serializer\Groups({"list.restaurants", "details.restaurants"})
      */
     private $id;
 
@@ -20,6 +22,8 @@ class Restaurant
      * @var string
      *
      * @Assert\NotBlank()
+     *
+     * @Serializer\Groups({"list.restaurants", "details.restaurants"})
      */
     private $name;
 
@@ -31,11 +35,15 @@ class Restaurant
      *      min = 1,
      *      minMessage = "This value should be {{ limit }} or more"
      * )
+     *
+     * @Serializer\Groups({"list.restaurants", "details.restaurants"})
      */
     private $maxCapacity;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
+     *
+     * @Serializer\Groups({"list.restaurants", "details.restaurants"})
      */
     private $reservations;
 
