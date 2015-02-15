@@ -61,27 +61,19 @@ class RestaurantController extends FOSRestController
      * @return array|\FOS\RestBundle\View\View
      *
      * @Post("/restaurants")
-     * @Rest\View
      */
     public function postRestaurantAction(Request $request)
     {
-        var_dump($request);
         $entity = new Restaurant();
         $form = $this->createForm(new RestaurantType(), $entity);
-        $form->submit($request);
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirectView(
-                $this->generateUrl(
-                    'get_restaurant',
-                    array('id' => $entity->getId())
-                ),
-                ResponseCodes::HTTP_CREATED
-            );
+            return $this->view($entity, ResponseCodes::HTTP_CREATED);
         }
 
         return array(
@@ -110,12 +102,8 @@ class RestaurantController extends FOSRestController
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirectView(
-                $this->generateUrl(
-                    'get_restaurant',
-                    array('id' => $entity->getId())
-                ),
-                ResponseCodes::HTTP_OK
+            return array(
+                'entity' => $entity,
             );
         }
 
