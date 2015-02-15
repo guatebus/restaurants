@@ -29,10 +29,10 @@ class GtbWebTestCase extends WebTestCase
      *
      * @return Response
      */
-    protected function makeRequest($method, $uri, array $parameters = array(), array $files = array(), array $server = array(), $content = null, $changeHistory = true)
+    protected function requestJson($method, $uri, array $parameters = array(), array $files = array(), array $server = array(), $content = null, $changeHistory = true)
     {
         $client = $this->getClient();
-        $crawler = $client->request($method, $uri, $parameters, $files, $server, $content, $changeHistory);
+        $client->request($method, $uri, $parameters, $files, $server, $content, $changeHistory);
 
         $response = $client->getResponse();
         $this->assertJsonResponse($response);

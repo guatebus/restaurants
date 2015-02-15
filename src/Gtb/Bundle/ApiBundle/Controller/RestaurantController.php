@@ -72,7 +72,12 @@ class RestaurantController extends FOSRestController
                 }
             );
 
-            return $this->view($entity, ResponseCodes::HTTP_CREATED);
+            return $this->view(
+                array(
+                    'entity' => $entity,
+                ),
+                ResponseCodes::HTTP_CREATED
+            );
         }
 
         return array(
