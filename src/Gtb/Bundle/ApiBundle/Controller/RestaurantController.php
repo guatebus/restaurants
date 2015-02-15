@@ -124,9 +124,11 @@ class RestaurantController extends FOSRestController
     {
         $entity = $this->getEntity($id);
 
-        $em = $this->getDoctrine()->getManager();
-        $em->remove($entity);
-        $em->flush();
+        $this->getDoctrine()->getManager()->transactional(function ($em) use ($entity) {
+                /* @var EntityManagerInterface $em */
+                $em->remove($entity);
+            }
+        );
 
         return $this->view(null, ResponseCodes::HTTP_NO_CONTENT);
     }
