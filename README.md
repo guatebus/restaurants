@@ -5,11 +5,15 @@ This is a Symfony 2.6 application that provides REST services for Restaurant, Pe
 
 Find a Postman collection of crafted http requests in ./doc/restaurants.json.postman_collection. Every call in this collection works if performed immediately after the fixtures have been loaded.
 
-The tests bootstrap script performs an automated install of the application:
+The tests bootstrap script performs an automated install of the application.
+
+Before performing the tests, the run-tests script will set up the project and environment for the test suite (it performs a composer install and loads fixtures to the db).
+
+Run the test bootstrap script with:
 
     ./bin/run-tests
 
-The entire test suite is executed by this script. This test suite does not have 100% code coverage, it has some example unit and functional tests (see the Tests dir in each bundle for details). Before performing the tests the run-tests script will set up the project and environment for the tests (performs a composer install and loads fixtures to the db).
+The entire test suite is executed by this script and all tests pass. This test suite, however, does not have 100% code coverage. It has some unit and functional tests to exemplify/serve as reference (see the Tests dir in each bundle for details).
 
 For setting up in a non-web root dir, please refer to step 4 below.
 
