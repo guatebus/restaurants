@@ -3,6 +3,7 @@
 namespace Gtb\Bundle\CoreBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use Symfony\Component\HttpFoundation\ParameterBag;
 
 /**
  * ReservationRepository
@@ -12,4 +13,36 @@ use Doctrine\ORM\EntityRepository;
  */
 class ReservationRepository extends EntityRepository
 {
+    public function getReservations(ParameterBag $params) {
+        $qb = $this
+            ->createQueryBuilder('r')
+        ;
+
+        if ($params->get('y') &&
+            $params->get('m') &&
+            $params->get('d')) {
+                $date = new \DateTime(sprintf('%d-%d-%d',
+                    $params->get('y'),
+                    $params->get('m'),
+                    $params->get('d')
+                ));
+                $qb->andWhere($qb->expr()->between('r.date', ':date_from', ':date_to'));
+                $qb->setParameter('date_from', $date, \Doctrine\DBAL\Types\Type::DATETIME);
+                $qb->setParameter('date_to', $date, \Doctrine\DBAL\Types\Type::DATETIME);
+
+                // strict date comparison works when there isn't a date range being queried for
+                // left here for reference (as no commented code should reach production!)
+                //$qb->andWhere('r.date = :date')->setParameter('date', $date, \Doctrine\DBAL\Types\Type::DATETIME);
+        }
+
+        if ($restaurantId = $params->get('rid')) {
+            $qb->andWhere('r.restaurant = :rid')->setParameter('rid', $restaurantId);
+        }
+
+        if ($personId = $params->get('pid')) {
+            $qb->andWhere('r.person = :pid')->setParameter('pid', $personId);
+        }
+
+        return $qb->getQuery()->getResult();
+    }
 }

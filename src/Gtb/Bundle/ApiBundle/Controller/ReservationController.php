@@ -23,40 +23,12 @@ class ReservationController extends FOSRestController
      */
     public function getReservationsAction(Request $request)
     {
-        $qb = $this
-            ->getDoctrine()
-            ->getManager()
-            ->getRepository('GtbCoreBundle:Reservation')
-            ->createQueryBuilder('r')
-        ;
-
-        if ($request->query->get('y') &&
-            $request->query->get('m') &&
-            $request->query->get('d')) {
-            $date = new \DateTime(sprintf('%d-%d-%d',
-                $request->query->get('y'),
-                $request->query->get('m'),
-                $request->query->get('d')
-            ));
-            $qb->andWhere($qb->expr()->between('r.date', ':date_from', ':date_to'));
-            $qb->setParameter('date_from', $date, \Doctrine\DBAL\Types\Type::DATETIME);
-            $qb->setParameter('date_to', $date, \Doctrine\DBAL\Types\Type::DATETIME);
-
-            // strict date comparison works when there isn't a date range being queried for
-            // left here for reference (as no commented code should reach production!)
-            //$qb->andWhere('r.date = :date')->setParameter('date', $date, \Doctrine\DBAL\Types\Type::DATETIME);
-        }
-
-        if ($restaurantId = $request->query->get('rid')) {
-            $qb->andWhere('r.restaurant = :rid')->setParameter('rid', $restaurantId);
-        }
-
-        if ($personId = $request->query->get('pid')) {
-            $qb->andWhere('r.person = :pid')->setParameter('pid', $personId);
-        }
-
         return array(
-            'entities' => $qb->getQuery()->getResult(),
+            'entities' => $this
+                    ->getDoctrine()
+                    ->getManager()
+                    ->getRepository('GtbCoreBundle:Reservation')
+                    ->getReservations($request->query)
         );
     }
 
