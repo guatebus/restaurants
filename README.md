@@ -1,69 +1,40 @@
-Symfony Standard Edition
-========================
+Restaurants (Byteland)
+======================
 
-Welcome to the Symfony Standard Edition - a fully-functional Symfony2
-application that you can use as the skeleton for your new applications.
+This is a Symfony 2.6 application that provides REST services for Restaurant, Person and Reservation entities.
 
-For details on how to download and get started with Symfony, see the
-[Installation][1] chapter of the Symfony Documentation.
+Find a Postman collection of crafted http requests in ./doc/restaurants.json.postman_collection. Every call in this collection works if performed immediately after the fixtures have been loaded.
 
-What's inside?
---------------
+The tests bootstrap script performs an automated install of the application:
 
-The Symfony Standard Edition is configured with the following defaults:
+    ./bin/run-tests
 
-  * An AppBundle you can use to start coding;
+The entire test suite is executed by this script. This test suite does not have 100% code coverage, it has some example unit and functional tests (see the Tests dir in each bundle for details). Before performing the tests the run-tests script will set up the project and environment for the tests (performs a composer install and loads fixtures to the db).
 
-  * Twig as the only configured template engine;
+For setting up in a non-web root dir, please refer to step 4 below.
 
-  * Doctrine ORM/DBAL;
+To get a list of all of the application's endpoints (routes) perform:
 
-  * Swiftmailer;
+    app/console router:debug
 
-  * Annotations enabled for everything.
 
-It comes pre-configured with the following bundles:
+Manual installation instructions are as follows:
 
-  * **FrameworkBundle** - The core Symfony framework bundle
+1. Unpack the zip.
+2. Composer is used to manage the project's dependencies. If you don't have composer installed, install it
+   on the application's root dir (https://getcomposer.org/download/)
+3. From the application's root dir run:
 
-  * [**SensioFrameworkExtraBundle**][6] - Adds several enhancements, including
-    template and routing annotation capability
+    'php composer.phar install'
 
-  * [**DoctrineBundle**][7] - Adds support for the Doctrine ORM
+4. If you did not install the application inside your web directory's document root, add a vhost config, restart
+   your server service and edit your /etc/hosts file (eg. add a new host 'restaurants.dev')
+5. Make sure your web server has write permissions in the app/cache and app/logs directories
+6. Update the database-related parameters on the app/config/parameters.yml file (the project uses the mysql db)
+7. Install the db and fixtures by running on the application root folder the following:
 
-  * [**TwigBundle**][8] - Adds support for the Twig templating engine
+    'app/console doctrine:database:drop --force && app/console doctrine:database:create && app/console doctrine:schema:create && app/console doctrine:fixtures:load --append'
 
-  * [**SecurityBundle**][9] - Adds security by integrating Symfony's security
-    component
+8. Access the application (http://restaurants.dev/app_dev.php/v1/YOUR_REST_ENDPOINT)
 
-  * [**SwiftmailerBundle**][10] - Adds support for Swiftmailer, a library for
-    sending emails
-
-  * [**MonologBundle**][11] - Adds support for Monolog, a logging library
-
-  * [**AsseticBundle**][12] - Adds support for Assetic, an asset processing
-    library
-
-  * **WebProfilerBundle** (in dev/test env) - Adds profiling functionality and
-    the web debug toolbar
-
-  * **SensioDistributionBundle** (in dev/test env) - Adds functionality for
-    configuring and working with Symfony distributions
-
-  * [**SensioGeneratorBundle**][13] (in dev/test env) - Adds code generation
-    capabilities
-
-All libraries and bundles included in the Symfony Standard Edition are
-released under the MIT or BSD license.
-
-Enjoy!
-
-[1]:  http://symfony.com/doc/2.6/book/installation.html
-[6]:  http://symfony.com/doc/2.6/bundles/SensioFrameworkExtraBundle/index.html
-[7]:  http://symfony.com/doc/2.6/book/doctrine.html
-[8]:  http://symfony.com/doc/2.6/book/templating.html
-[9]:  http://symfony.com/doc/2.6/book/security.html
-[10]: http://symfony.com/doc/2.6/cookbook/email.html
-[11]: http://symfony.com/doc/2.6/cookbook/logging/monolog.html
-[12]: http://symfony.com/doc/2.6/cookbook/assetic/asset_management.html
-[13]: http://symfony.com/doc/2.6/bundles/SensioGeneratorBundle/index.html
+** Access prod environment through app.php (app developed in dev environment, app.php should work but not fully tested!)
