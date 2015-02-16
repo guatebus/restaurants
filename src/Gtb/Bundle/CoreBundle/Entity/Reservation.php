@@ -84,8 +84,6 @@ class Reservation
     {
         $this->restaurant = $restaurant;
 
-        $restaurant->addReservation($this);
-
         return $this;
     }
 

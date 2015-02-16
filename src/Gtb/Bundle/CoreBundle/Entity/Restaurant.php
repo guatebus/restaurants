@@ -36,14 +36,14 @@ class Restaurant
      *      minMessage = "This value should be {{ limit }} or more"
      * )
      *
-     * @Serializer\Groups({"list.restaurants", "details.restaurants"})
+     * @Serializer\Groups({"details.restaurants"})
      */
     private $maxCapacity;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @Serializer\Groups({"list.restaurants", "details.restaurants"})
+     * @Serializer\Groups({"details.restaurants"})
      */
     private $reservations;
 

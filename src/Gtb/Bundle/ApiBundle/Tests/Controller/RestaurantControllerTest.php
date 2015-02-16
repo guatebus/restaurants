@@ -29,10 +29,6 @@ class RestaurantControllerTest extends GtbWebTestCase
         $this->assertNotEmpty($restaurant['id']);
         $this->assertArrayHasKey('name', $restaurant);
         $this->assertNotEmpty($restaurant['name']);
-        $this->assertArrayHasKey('max_capacity', $restaurant);
-        $this->assertNotEmpty($restaurant['max_capacity']);
-        $this->assertArrayHasKey('reservations', $restaurant);
-        $this->assertEmpty($restaurant['reservations']);
     }
 
     public function testGetRestaurant()

@@ -20,6 +20,7 @@ Gtb\Bundle\CoreBundle\Entity\Reservation:
                 name: restaurant_id
                 referencedColumnName: id
                 nullable: false
+                onDelete: CASCADE
         person:
             targetEntity: Gtb\Bundle\CoreBundle\Entity\Person
             inversedBy: reservations
@@ -27,5 +28,6 @@ Gtb\Bundle\CoreBundle\Entity\Reservation:
                 name: person_id
                 referencedColumnName: id
                 nullable: false
+                onDelete: CASCADE
 
     lifecycleCallbacks: {  }
