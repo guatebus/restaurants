@@ -53,6 +53,7 @@ class DateReservationUtilsTest extends \PHPUnit_Framework_TestCase
         $reservation->setRestaurant($restaurant);
         $reservation->setPerson($person1);
         $reservation->setDate($date);
+        $restaurant->addReservation($reservation);
 
         $this->assertFalse($dateReservationUtils->isRestaurantFullOn($restaurant, $date));
 
@@ -61,6 +62,7 @@ class DateReservationUtilsTest extends \PHPUnit_Framework_TestCase
         $reservation->setRestaurant($restaurant);
         $reservation->setPerson($person2);
         $reservation->setDate($date);
+        $restaurant->addReservation($reservation);
 
         $this->assertTrue($dateReservationUtils->isRestaurantFullOn($restaurant, $date));
     }
