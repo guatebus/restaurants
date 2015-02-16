@@ -3,7 +3,7 @@ Restaurants (Byteland)
 
 This is a Symfony 2.6 application that provides REST services for Restaurant, Person and Reservation entities.
 
-Find a Postman collection of crafted http requests in ./doc/restaurants.json.postman_collection. Every call in this collection works if performed immediately after the fixtures have been loaded.
+Find a [Postman collection] (doc/restaurants.json.postman_collection) of crafted http requests at ./doc/restaurants.json.postman_collection. Every call in this collection works if performed immediately after the fixtures have been loaded.
 
 The tests bootstrap script performs an automated install of the application.
 
