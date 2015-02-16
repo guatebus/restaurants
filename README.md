@@ -17,6 +17,8 @@ To get a list of all of the application's endpoints (routes) perform:
 
     app/console router:debug
 
+The application expects a JSON payload in POST and PUT requests, and will always return JSON.
+
 
 Manual installation instructions are as follows:
 
