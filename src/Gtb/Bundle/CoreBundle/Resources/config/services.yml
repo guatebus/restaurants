@@ -1,3 +1,7 @@
+parameters:
+    gtb.core.date_reservation_utils.class: Gtb\Bundle\CoreBundle\DateReservation\DateReservationUtils
+
 services:
     gtb.core.date_reservation_utils:
-        class: Gtb\Bundle\CoreBundle\DateReservation\DateReservationUtils
+        class: %gtb.core.date_reservation_utils.class%
+        arguments: [@doctrine.orm.entity_manager]

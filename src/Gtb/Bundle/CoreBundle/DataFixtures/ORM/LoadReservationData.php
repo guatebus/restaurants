@@ -42,10 +42,8 @@ class LoadReservationData extends AbstractFixture implements FixtureInterface, O
                             $reservation->setDate($date);
                             $reservation->setPerson($person);
                             $reservation->setRestaurant($restaurant);
-                            $restaurant->addReservation($reservation);
 
                             $manager->persist($reservation);
-                            $manager->persist($restaurant);
                     }
                 }
             }

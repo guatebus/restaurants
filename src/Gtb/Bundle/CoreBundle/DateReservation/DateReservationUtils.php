@@ -2,8 +2,12 @@
 
 namespace Gtb\Bundle\CoreBundle\DateReservation;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Gtb\Bundle\CoreBundle\Entity\Person;
 use Gtb\Bundle\CoreBundle\Entity\Restaurant;
+use Gtb\Bundle\CoreBundle\Entity\Reservation;
+use Gtb\Bundle\ApiBundle\Exception\PersonNotAvailableException;
+use Gtb\Bundle\ApiBundle\Exception\RestaurantNotAvailableException;
 
 /**
  * Contains helper methods related to Reservations on specific dates.
@@ -13,6 +17,39 @@ use Gtb\Bundle\CoreBundle\Entity\Restaurant;
  */
 class DateReservationUtils
 {
+    protected $em;
+
+    public function __construct(EntityManagerInterface $em) {
+        $this->em = $em;
+    }
+
+    /**
+     * @param Reservation $reservation
+     * @throws RestaurantNotAvailableException
+     * @throws PersonNotAvailableException
+     */
+    public function checkAvailability(Reservation $reservation)
+    {
+        // Check person availability
+        $found = $this->em->getRepository('GtbCoreBundle:Reservation')->findOneBy(array(
+                'person' => $reservation->getPerson(),
+                'date' => $reservation->getDate()
+            ));
+
+        if ($found) { // a reservation for that person+date exists
+            if (is_null($reservation->getId()) || // $reservation is new
+                $reservation->getId() && $reservation->getId() != $found->getId()) { // $reservation exists and it is not the one $found
+                throw new PersonNotAvailableException("Person already has a reservation on that date");
+            }
+        }
+
+        // Check restaurant availability
+        $restaurant = $this->em->getRepository('GtbCoreBundle:Restaurant')->find($reservation->getRestaurant()->getId());
+
+        if ($this->isRestaurantFullOn($restaurant, $reservation->getDate())) {
+            throw new RestaurantNotAvailableException("Restaurant has reached its maximum capacity on that date");
+        }
+    }
 
     /**
      * Checks if a $restaurant has reached max capacity (is full) on the specified date

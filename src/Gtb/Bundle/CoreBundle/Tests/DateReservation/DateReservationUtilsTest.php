@@ -17,7 +17,10 @@ class DateReservationUtilsTest extends \PHPUnit_Framework_TestCase
      */
     public function testDaysMatch()
     {
-        $dateReservationUtils = new DateReservationUtils();
+        $mockEntityManager = $this->getMockBuilder('\Doctrine\ORM\EntityManager')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $dateReservationUtils = new DateReservationUtils($mockEntityManager);
         $dateStr = 'today';
         $date = new \DateTime($dateStr);
 
@@ -40,7 +43,10 @@ class DateReservationUtilsTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsRestaurantFullOn()
     {
-        $dateReservationUtils = new DateReservationUtils();
+        $mockEntityManager = $this->getMockBuilder('\Doctrine\ORM\EntityManager')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $dateReservationUtils = new DateReservationUtils($mockEntityManager);
         $restaurant = new Restaurant();
         $restaurant->setMaxCapacity(2);
         $date = new \DateTime('now');
@@ -53,7 +59,6 @@ class DateReservationUtilsTest extends \PHPUnit_Framework_TestCase
         $reservation->setRestaurant($restaurant);
         $reservation->setPerson($person1);
         $reservation->setDate($date);
-        $restaurant->addReservation($reservation);
 
         $this->assertFalse($dateReservationUtils->isRestaurantFullOn($restaurant, $date));
 
@@ -62,7 +67,6 @@ class DateReservationUtilsTest extends \PHPUnit_Framework_TestCase
         $reservation->setRestaurant($restaurant);
         $reservation->setPerson($person2);
         $reservation->setDate($date);
-        $restaurant->addReservation($reservation);
 
         $this->assertTrue($dateReservationUtils->isRestaurantFullOn($restaurant, $date));
     }
@@ -74,7 +78,10 @@ class DateReservationUtilsTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetReservationForUsingMockObjects()
     {
-        $dateReservationUtils = new DateReservationUtils();
+        $mockEntityManager = $this->getMockBuilder('\Doctrine\ORM\EntityManager')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $dateReservationUtils = new DateReservationUtils($mockEntityManager);
         $date = new \DateTime('now');
 
         $reservationMock = $this->getMock('Gtb\Bundle\CoreBundle\Entity\Reservation');

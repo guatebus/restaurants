@@ -70,10 +70,7 @@ class ReservationController extends FOSRestController
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $this->checkAvailability($entity);
-
-            // reservation added to restaurant after availability check to prevent clashing during check
-            $entity->getRestaurant()->addReservation($entity);
+            $this->get('gtb.core.date_reservation_utils')->checkAvailability($entity);
 
             $this->getDoctrine()->getManager()->transactional(function ($em) use ($entity) {
                     /* @var EntityManagerInterface $em */
@@ -111,10 +108,7 @@ class ReservationController extends FOSRestController
         $form->submit($request);
 
         if ($form->isValid()) {
-            $this->checkAvailability($entity);
-
-            // reservation added to restaurant after availability check to prevent clashing during check
-            $entity->getRestaurant()->addReservation($entity);
+            $this->get('gtb.core.date_reservation_utils')->checkAvailability($entity);
 
             $this->getDoctrine()->getManager()->transactional(function ($em) use ($entity) {
                     /* @var EntityManagerInterface $em */
@@ -150,42 +144,6 @@ class ReservationController extends FOSRestController
         );
 
         return $this->view(null, ResponseCodes::HTTP_NO_CONTENT);
-    }
-
-    /**
-     * Checks if the person and restaurant in $reservation is available to book the reservation
-     *
-     * @param Reservation $reservation
-     * @throws \Gtb\Bundle\ApiBundle\Exception\RestaurantNotAvailableException Restaurant not available
-     * @throws \Gtb\Bundle\ApiBundle\Exception\PersonNotAvailableException Person not available
-     */
-    protected function checkAvailability(Reservation $reservation)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        // Check person availability
-        $found = $em->getRepository('GtbCoreBundle:Reservation')->findOneBy(array(
-                'person' => $reservation->getPerson(),
-                'date' => $reservation->getDate()
-            ));
-
-        if ($found) { // a reservation for that person+date exists
-            if (is_null($reservation->getId()) || // $reservation is new
-                $reservation->getId() && $reservation->getId() != $found->getId()) { // $reservation exists and it is not the one $found
-                    throw new PersonNotAvailableException("Person already has a reservation on that date");
-            }
-        }
-
-        // Check restaurant availability
-
-        // No need to check if $reservation exists as if it does, it was:
-        // (1) either edited so the person or date changed (this check is handled by code above)
-        // (2) the restaurant changed, so the code below will handle that check
-        /* @var DateReservationUtils $dateReservationUtils */
-        $dateReservationUtils = $this->get('gtb.core.date_reservation_utils');
-        if ($dateReservationUtils->isRestaurantFullOn($reservation->getRestaurant(), $reservation->getDate())) {
-            throw new RestaurantNotAvailableException("Restaurant has reached its maximum capacity on that date");
-        }
     }
 
     /**
